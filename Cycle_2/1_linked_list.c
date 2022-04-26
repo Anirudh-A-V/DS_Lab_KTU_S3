@@ -23,7 +23,7 @@ void insertAtEnd(int data)
     temp->data = data;
     temp->link = NULL;
     struct node *head = start;
-    while (head != NULL)
+    while (head->link != NULL)
     {
         head = head->link;
     }
@@ -35,11 +35,12 @@ void insertAtPosition(int data, int key)
     struct node *temp = malloc(sizeof(struct node));
     bool flag = false;
     struct node *head = start;
-    while (head != NULL && flag == false)
+    while (head->link != NULL && flag == false)
     {
         if (head->data == key)
         {
             flag = true;
+            break;
         }
         head = head->link;
     }
@@ -80,7 +81,7 @@ void deleteFromEnd()
     {
         struct node *ptr = start;
         struct node *ptr1;
-        while (ptr != NULL)
+        while (ptr->link != NULL)
         {
             ptr1 = ptr;
             ptr = ptr->link;
@@ -94,14 +95,15 @@ void deleteFromPosition(int key)
 {
     bool flag = false;
     struct node *head1, *head = start;
-    while (head != NULL && flag == false)
+    while (head->link != NULL && flag == false)
     {
         head1 = head;
+        head = head->link;
         if (head->data == key)
         {
             flag = true;
+            break;
         }
-        head = head->link;
     }
     if (flag == true)
     {
@@ -118,22 +120,22 @@ void deleteFromPosition(int key)
 void Traverse()
 {
     struct node *head = start;
-    printf("\nFront ->");
+    printf("\nFront -> ");
     while (head != NULL)
     {
-        printf("\t%d", head->data);
+        printf("%d ", head->data);
         head = head->link;
     }
-    printf(" <- Rear");
+    printf("<- Rear");
 }
 
 void main()
 {
-    int response, choice, element, key;
+    int choice, element, key;
     do
     {
-        printf("\n\nM E N U\n\n1. Insert to the Front of the Linked list.\n2. Insert to the Rear of the Linked list.\n3. Insert at any position\n");
-        printf("4. Delete the First element of the Linked list.\n5. Delete last element of the Linked list.\n6. Delete from any position.\n7. Display\n8. Exit\n\n");
+        printf("\n\nM E N U\n\n1. Insert to the Front of the Linked list.\n2. Insert to the Rear of the Linked list.\n3. Insert after any node\n");
+        printf("4. Delete the First element of the Linked list.\n5. Delete last element of the Linked list.\n6. Delete any node.\n7. Display\n8. Exit\n\n");
     ch:
         printf("\t  -> ");
         scanf("%d", &choice);
@@ -167,7 +169,7 @@ void main()
             break;
 
         case 6:
-            printf("Enter the data of the node to be deleted");
+            printf("Enter the data of the node to be deleted : ");
             scanf("%d", &key);
             deleteFromPosition(key);
             break;
@@ -183,7 +185,5 @@ void main()
             printf("Enter a valid Choice!!!!\n\n");
             goto ch;
         }
-        printf("\nDo you want to continue (1 or 0) : ");
-        scanf("%d", &response);
-    } while (response == 1);
+    } while (true);
 }
