@@ -31,9 +31,9 @@ struct node *create_Tree()
         return NULL;
 
     struct node *new_node = create_Node(data);
-    printf("\nEnter the left child of %d : ");
+    printf("\nEnter the left child of %d : ", data);
     new_node->left = create_Tree();
-    printf("\nEnter the right child of %d : ");
+    printf("\nEnter the right child of %d : ", data);
     new_node->right = create_Tree();
 
     return new_node;
@@ -42,19 +42,19 @@ struct node *create_Tree()
 void inorder(struct node *root)
 {
     if (root == NULL)
-        return NULL;
+        return;
 
     inorder(root->left);
-    printf("&d  ", root->data);
+    printf("%d  ", root->data);
     inorder(root->right);
 }
 
 void preorder(struct node *root)
 {
     if (root == NULL)
-        return NULL;
+        return;
 
-    printf("&d  ", root->data);
+    printf("%d  ", root->data);
     preorder(root->left);
     preorder(root->right);
 }
@@ -62,11 +62,11 @@ void preorder(struct node *root)
 void postorder(struct node *root)
 {
     if (root == NULL)
-        return NULL;
+        return;
 
     postorder(root->left);
     postorder(root->right);
-    printf("&d  ", root->data);
+    printf("%d  ", root->data);
 }
 
 struct node *search_key(struct node *root, int key)
@@ -84,10 +84,11 @@ struct node *search_key(struct node *root, int key)
         search_key(temp->left, key);
         search_key(temp->right, key);
     }
+    // return temp;
 }
-void insert_node(int data, int key)
+void insert_node(struct node *root, int data, int key)
 {
-    struct node key_node = search_key(root, key);
+    struct node *key_node = search_key(root, key);
     if (key_node == NULL)
     {
         printf("\nSearch Unsuccessful : No insertion\n");
@@ -101,12 +102,12 @@ void insert_node(int data, int key)
         scanf("%c", &choice);
         if (choice == 'l' || choice == 'L')
         {
-            struct node newnode = create_Node(data);
+            struct node *newnode = create_Node(data);
             key_node->left = newnode;
         }
         else if (choice == 'r' || choice == 'R')
         {
-            struct node newnode = create_Node(data);
+            struct node *newnode = create_Node(data);
             key_node->right = newnode;
         }
         else
@@ -144,12 +145,90 @@ void delete_node(struct node *root, int key)
     struct node *ptr = search_parent(root, key, root);
     if (ptr == NULL)
     {
-        printf("\nSearch Unsuccessful : No deletion\n");
-        return;
+        printf("\nSearch Unsuccessful : No Deletion\n");
     }
-    struct node *ptr_l = ptr->left, *ptr_r = ptr->right;
-    
+    else
+    {
+        struct node *ptr_l = ptr->left, *ptr_r = ptr->right;
+        if (ptr_l->data == key)
+        {
+            if (ptr_l->left == NULL && ptr_l->right == NULL)
+            {
+                ptr->left = NULL;
+            }
+            else
+            {
+                printf("\nInquired node is not a leaf node : No Deletion");
+            }
+            
+        }
+        else if (ptr_r->data == key)
+        {
+            if (ptr_r->left == NULL && ptr_r->right == NULL)
+            {
+                ptr->right = NULL;
+            }
+            else
+            {
+                printf("\nInquired node is not a leaf node : No Deletion");
+            }
+            
+        }
+        else
+        {
+            /* code */
+        }
+        
+    }
 }
 void main()
 {
+    root_node = create_Tree();
+
+    int response = 1, choice, element, data, node;
+    do
+    {
+        printf("\n\nM E N U\n\n1. Insert a node to the tree\n2. Delete a node to the tree\n3. Preorder Traversal\n4. Inorder Traversal");
+        printf("\n5. Postorder Traversal\n6. Exit\n\n");
+    ch:
+        printf("\t  -> ");
+        scanf("%d", &choice);
+        printf("\n\n");
+        switch (choice)
+        {
+        case 1:
+            printf("Enter the number to be inserted : ");
+            scanf("%d", &data);
+            printf("Enter the node after which you need to insert : ");
+            scanf("%d", &node);
+
+            insert_node(root_node, data, node);
+            break;
+
+        case 2:
+            printf("Enter the node which needs to be deleted : ");
+            scanf("%d", &node);
+            delete_node(root_node, node);
+            break;
+
+        case 3:
+            preorder(root_node);
+            break;
+
+        case 4:
+            inorder(root_node);
+            break;
+
+        case 5:
+            postorder(root_node);
+            break;
+
+        case 6:
+            exit(0);
+
+        default:
+            printf("Enter a valid Choice!!!!\n\n");
+            goto ch;
+        }
+    } while (response == 1);
 }

@@ -31,32 +31,6 @@ struct polynomial *add_term(struct polynomial *poly, int degree, int cofficient)
     return poly;
 }
 
-// struct polynomial *read(struct polynomial *poly, int i, int n)
-// {
-
-//     struct polynomial *temp = malloc(sizeof(struct polynomial));
-
-//     if (poly == NULL)
-//     {
-//         temp->coefficient = n;
-//         temp->degree = i;
-//         poly = temp;
-//     }
-//     else
-//     {
-//         temp->degree = i;
-//         temp->coefficient = n;
-//         temp->link = NULL;
-//         struct polynomial *head = poly;
-//         while (head->link != NULL)
-//         {
-//             head = head->link;
-//         }
-//         head->link = temp;
-//     }
-//     return poly;
-// }
-
 struct polynomial *add_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *sum)
 {
     while (polyA != NULL && polyB != NULL)
@@ -104,17 +78,23 @@ struct polynomial *add_poly(struct polynomial *polyA, struct polynomial *polyB, 
     return sum;
 }
 
-struct polynomial *mult_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *product)
+struct polynomial *mult_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *prod)
 {
-    struct polynomial *prod = product;
+    struct polynomial *product = prod;
     while (polyA != NULL)
     {
         while (polyB != NULL)
         {
             struct polynomial *ptr1, *temp = malloc(sizeof(struct polynomial));
-            temp->degree = polyA->degree * polyB->degree;
+            temp->degree = polyA->degree + polyB->degree;
             temp->coefficient = polyA->coefficient * polyB->coefficient;
             temp->link = NULL;
+            if (product == NULL)
+            {
+                product = temp;
+                continue;
+            }
+            
             while (product != NULL)
             {
                 ptr1 = product;
@@ -141,8 +121,8 @@ struct polynomial *mult_poly(struct polynomial *polyA, struct polynomial *polyB,
         }
         polyA = polyA->link;
     }
-    product = prod;
-    return product;
+    // product = prod;
+    return prod;
 }
 
 void traversal(struct polynomial *poly)
