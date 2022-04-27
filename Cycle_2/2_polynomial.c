@@ -80,49 +80,7 @@ struct polynomial *add_poly(struct polynomial *polyA, struct polynomial *polyB, 
 
 struct polynomial *mult_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *prod)
 {
-    struct polynomial *product = prod;
-    while (polyA != NULL)
-    {
-        while (polyB != NULL)
-        {
-            struct polynomial *ptr1, *temp = malloc(sizeof(struct polynomial));
-            temp->degree = polyA->degree + polyB->degree;
-            temp->coefficient = polyA->coefficient * polyB->coefficient;
-            temp->link = NULL;
-            if (product == NULL)
-            {
-                product = temp;
-                continue;
-            }
-            
-            while (product != NULL)
-            {
-                ptr1 = product;
-                if (product->degree < temp->degree && product->link != NULL)
-                {
-                    product = product->link;
-                    continue;
-                }
-                else if (product->degree < temp->degree)
-                {
-                    temp = product->link;
-                    product->link = temp;
-                    break;
-                }
-                else if (product->degree == temp->degree)
-                {
-                    product->coefficient = product->coefficient + temp->coefficient;
-                    free(temp);
-                    break;
-                }
-                product = product->link;
-            }
-            polyB = polyB->link;
-        }
-        polyA = polyA->link;
-    }
-    // product = prod;
-    return prod;
+    
 }
 
 void traversal(struct polynomial *poly)

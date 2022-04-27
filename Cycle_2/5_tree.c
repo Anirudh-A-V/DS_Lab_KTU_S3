@@ -36,7 +36,7 @@ struct node *create_Tree()
     printf("\nEnter the right child of %d : ", data);
     new_node->right = create_Tree();
 
-    return new_node;
+    // return new_node;
 }
 
 void inorder(struct node *root)
@@ -124,61 +124,74 @@ void insert_node(struct node *root, int data, int key)
 
 struct node *search_parent(struct node *root, int key, struct node *par)
 {
-    struct node *temp = root;
+    struct node *temp;
     if (root == NULL)
         return NULL;
 
-    if (temp->data == key)
+    if (root->data == key)
     {
+        temp = par;
         return par;
     }
     else
     {
-        // par = temp;
-        search_parent(temp->left, key, temp);
-        search_parent(temp->right, key, temp);
+        search_parent(root->left, key, root);
+        printf("%d ", root->data);
+        search_parent(root->right, key, root);
     }
+    return temp;
 }
 
 void delete_node(struct node *root, int key)
 {
+    if (root == NULL)
+    {
+        printf("\nTree is empty\n");
+        return;
+    }
+    printf("\n1\n");
     struct node *ptr = search_parent(root, key, root);
+    printf("\n2");
     if (ptr == NULL)
     {
         printf("\nSearch Unsuccessful : No Deletion\n");
     }
     else
     {
+        printf("\n3");
         struct node *ptr_l = ptr->left, *ptr_r = ptr->right;
-        if (ptr_l->data == key)
+        if (ptr_l != NULL)
         {
-            if (ptr_l->left == NULL && ptr_l->right == NULL)
+            printf("\n%d", ptr_l->data);
+            if (ptr_l->data == key)
             {
-                ptr->left = NULL;
+                if (ptr_l->left == NULL && ptr_l->right == NULL)
+                {
+                    printf("\n5");
+                    ptr->left = NULL;
+                    free(ptr_l);
+                }
+                else
+                {
+                    printf("\nInquired node is not a leaf node : No Deletion");
+                }
             }
-            else
-            {
-                printf("\nInquired node is not a leaf node : No Deletion");
-            }
-            
         }
-        else if (ptr_r->data == key)
+        else if (ptr_r != NULL)
         {
-            if (ptr_r->left == NULL && ptr_r->right == NULL)
+            if (ptr_r->data == key)
             {
-                ptr->right = NULL;
+                if (ptr_r->left == NULL && ptr_r->right == NULL)
+                {
+                    ptr->right = NULL;
+                    free(ptr_r);
+                }
+                else
+                {
+                    printf("\nInquired node is not a leaf node : No Deletion");
+                }
             }
-            else
-            {
-                printf("\nInquired node is not a leaf node : No Deletion");
-            }
-            
         }
-        else
-        {
-            /* code */
-        }
-        
     }
 }
 void main()
