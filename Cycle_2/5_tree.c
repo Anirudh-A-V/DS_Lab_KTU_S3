@@ -128,18 +128,19 @@ struct node *search_parent(struct node *root, int key, struct node *par)
     if (root == NULL)
         return NULL;
 
-    if (root->data == key)
+    else if ((root->right != NULL && root->right->data == key) || (root->left != NULL && root->left->data == key))
     {
-        temp = par;
-        return par;
+        return root;
     }
     else
     {
-        search_parent(root->left, key, root);
-        printf("%d ", root->data);
-        search_parent(root->right, key, root);
+        temp = search_parent(root->right, key, root);
+        if (temp == NULL)
+        {
+            temp = search_parent(root->left, key, root);
+        }
+        return temp;
     }
-    return temp;
 }
 
 void delete_node(struct node *root, int key)
