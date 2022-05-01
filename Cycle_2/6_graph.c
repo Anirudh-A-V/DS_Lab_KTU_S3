@@ -184,7 +184,8 @@ struct NodeGraph *get_NodeGraph()
     return new;
 }
 
-struct AdjList *search_link(struct NodeGraph *header, int n){
+struct NodeGraph *search_link(struct NodeGraph *header, int n)
+{
     struct NodeGraph *ptr = header;
     while (ptr != NULL)
     {
@@ -233,24 +234,60 @@ struct NodeGraph *create_Graph(int n)
         else
         {
             printf("Enter the links : ");
-            for (int j = 0; j < a; j++)
-            {
-                if (j != 0)
-                {
-                    struct AdjList *newnode = get_AdjList();
-                    currAdjList->link = newnode;
-                    currAdjList = newnode;
-                }
-
-                scanf("%d", &data);
-                currAdjList->dest = search_link(header, data);
-                
-                /* Code for calling Update matrix */
-            }
-            
-
         }
+        for (int j = 0; j < a; j++)
+        {
+            if (j != 0)
+            {
+                struct AdjList *newnode = get_AdjList();
+                currAdjList->link = newnode;
+                currAdjList = newnode;
+            }
+
+            scanf("%d", &data);
+            currAdjList->dest = search_link(header, data);
+
+            /* Code for calling Update matrix */
+        }
+
         currNodeGraph->adj = currAdjList;
         currNodeGraph = currNodeGraph->next;
     }
+    return header;
+}
+
+void print_Graph(struct NodeGraph *header)
+{
+
+    header = header->next;
+
+    while (header != NULL)
+    {
+        struct AdjList *adj = get_AdjList();
+        adj = header->adj;
+
+        printf("%d : ", header->value);
+
+        if (header->adj != NULL)
+        {
+            while (adj != NULL)
+            {
+                printf("%d ", (adj->dest)->value);
+                adj = adj->link;
+            }
+        }
+
+        printf("\n");
+        header = header->next;
+    }
+}
+
+int main()
+{
+    int n;
+    printf("Enter the no. of nodes of the graph : ");
+    scanf("%d", &n);
+    struct NodeGraph *header = create_Graph(n);
+    print_Graph(header);
+    return 0;
 }
