@@ -80,7 +80,7 @@ struct polynomial *add_poly(struct polynomial *polyA, struct polynomial *polyB, 
 
 struct polynomial *mult_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *prod)
 {
-    
+    // Code to be added
 }
 
 void traversal(struct polynomial *poly)
@@ -138,8 +138,8 @@ void main()
     printf("\nSum of two polynomials : ");
     traversal(sum);
 
-    product = mult_poly(startA, startB, product);
+    // product = mult_poly(startA, startB, product);
 
-    printf("\nProduct of two polynomials : ");
-    traversal(product);
+    // printf("\nProduct of two polynomials : ");
+    // traversal(product);
 }
