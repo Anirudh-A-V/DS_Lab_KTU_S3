@@ -9,6 +9,7 @@ struct polynomial
     struct polynomial *link;
 };
 
+// Function to create a new node
 struct polynomial *add_term(struct polynomial *poly, int degree, int cofficient)
 {
     struct polynomial *temp = malloc(sizeof(struct polynomial));
@@ -31,115 +32,134 @@ struct polynomial *add_term(struct polynomial *poly, int degree, int cofficient)
     return poly;
 }
 
-struct polynomial *add_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *sum)
+// function to add two polynomials
+struct polynomial *add_poly(struct polynomial *poly1, struct polynomial *poly2)
 {
-    while (polyA != NULL && polyB != NULL)
+    struct polynomial *poly3 = NULL;
+    while (poly1 != NULL && poly2 != NULL)
     {
-        if (polyA->degree < polyB->degree)
+        if (poly1->degree == poly2->degree)
         {
-            sum = add_term(sum, polyA->degree, polyA->coefficient);
-            polyA = polyA->link;
-            if (polyA == NULL)
-            {
-                break;
-            }
+            poly3 = add_term(poly3, poly1->degree, poly1->coefficient + poly2->coefficient);
+            poly1 = poly1->link;
+            poly2 = poly2->link;
         }
-        if (polyA->degree > polyB->degree)
+        else if (poly1->degree > poly2->degree)
         {
-            sum = add_term(sum, polyB->degree, polyB->coefficient);
-            polyB = polyB->link;
-            if (polyB == NULL)
-            {
-                break;
-            }
+            poly3 = add_term(poly3, poly1->degree, poly1->coefficient);
+            poly1 = poly1->link;
         }
-        if (polyA->degree = polyB->degree)
+        else
         {
-            sum = add_term(sum, polyB->degree, (polyB->coefficient + polyA->coefficient));
-            polyA = polyA->link;
-            polyB = polyB->link;
-            if (polyA == NULL || polyB == NULL)
-            {
-                break;
-            }
+            poly3 = add_term(poly3, poly2->degree, poly2->coefficient);
+            poly2 = poly2->link;
         }
     }
-    while (polyA != NULL)
+    while (poly1 != NULL)
     {
-        sum = add_term(sum, polyA->degree, polyA->coefficient);
-        polyA = polyA->link;
+        poly3 = add_term(poly3, poly1->degree, poly1->coefficient);
+        poly1 = poly1->link;
     }
-    while (polyB != NULL)
+    while (poly2 != NULL)
     {
-        sum = add_term(sum, polyB->degree, polyB->coefficient);
-        polyB = polyB->link;
+        poly3 = add_term(poly3, poly2->degree, poly2->coefficient);
+        poly2 = poly2->link;
     }
-
-    return sum;
+    return poly3;
 }
 
-struct polynomial *mult_poly(struct polynomial *polyA, struct polynomial *polyB, struct polynomial *prod)
+// function to multiply two polynomials
+struct polynomial *multiply_poly(struct polynomial *poly1, struct polynomial *poly2)
 {
-    // Code to be added
-}
-
-void traversal(struct polynomial *poly)
-{
-    struct polynomial *head = poly;
-    if (poly == NULL)
+    struct polynomial *poly3 = NULL;
+    while (poly1 != NULL)
     {
-        printf("\nThe list is empty\n");
-    }
-    else
-    {
-        while (head->link != NULL)
+        struct polynomial *temp = poly2;
+        while (temp != NULL)
         {
-            printf("%dX^%d + ", head->coefficient, head->degree);
-            head = head->link;
+            poly3 = add_term(poly3, poly1->degree + temp->degree, poly1->coefficient * temp->coefficient);
+            temp = temp->link;
         }
-        printf("%dX^%d\n", head->coefficient, head->degree);
+        poly1 = poly1->link;
     }
+    return poly3;
 }
 
-void main()
+void display_poly(struct polynomial *poly)
 {
-    struct polynomial *startA = NULL, *startB = NULL, *sum = NULL, *product = NULL;
-    int terms, deg, coef;
-
-    printf("\nEnter the number of terms of first polynomial : ");
-    scanf("%d", &terms);
-    printf("\n");
-
-    for (int i = 0; i < terms; i++)
+    while (poly != NULL)
     {
-        printf("Enter the coefficient and degree of the %dth term : ", i + 1);
-        scanf("%d%d", &coef, &deg);
-        startA = add_term(startA, deg, coef);
+        printf("%dx^%d", poly->coefficient, poly->degree);
+        if (poly->link != NULL)
+        {
+            printf(" + ");
+        }
+        poly = poly->link;
+    }
+    printf("");
+}
+
+int main()
+{
+    struct polynomial *polyA = NULL;
+    struct polynomial *polyB = NULL;
+    struct polynomial *sum = NULL;
+    struct polynomial *product = NULL;
+    int degree, coefficient;
+
+    // polyA = add_term(polyA, 2, 3);
+    // polyA = add_term(polyA, 1, 2);
+    // polyA = add_term(polyA, 0, 1);
+
+    // polyB = add_term(polyB, 2, 2);
+    // polyB = add_term(polyB, 1, 1);
+    // polyB = add_term(polyB, 0, 1);
+
+    // Take user input for polynomial A
+    printf("Enter the polynomial A: ");
+    while (true)
+    {
+        printf("Enter the degree of the term: ");
+        scanf("%d", &degree);
+        if (degree < 0)
+        {
+            break;
+        }
+        printf("Enter the coefficient of the term: ");
+        scanf("%d", &coefficient);
+        polyA = add_term(polyA, degree, coefficient);
     }
 
-    printf("\nEnter the number of terms of second polynomial : ");
-    scanf("%d", &terms);
-    printf("\n");
-
-    for (int i = 0; i < terms; i++)
+    // Take user input for polynomial A
+    printf("Enter the polynomial B: ");
+    while (true)
     {
-        printf("Enter the coefficient and degree of the %dth term : ", i + 1);
-        scanf("%d%d", &coef, &deg);
-        startB = add_term(startB, deg, coef);
+        printf("Enter the degree of the term: ");
+        scanf("%d", &degree);
+        if (degree < 0)
+        {
+            break;
+        }
+        printf("Enter the coefficient of the term: ");
+        scanf("%d", &coefficient);
+        polyA = add_term(polyB, degree, coefficient);
     }
 
-    printf("\nPolynomial A : ");
-    traversal(startA);
-    printf("Polynomial B : ");
-    traversal(startB);
+    // Display the polynomials
+    printf("\nPolynomial A: ");
+    display_poly(polyA);
+    printf("\nPolynomial B: ");
+    display_poly(polyB);
 
-    sum = add_poly(startA, startB, sum);
+    // Add the polynomials
+    sum = add_poly(polyA, polyB);
+    printf("\n\nSum: ");
+    display_poly(sum);
 
-    printf("\nSum of two polynomials : ");
-    traversal(sum);
+    // Multiply the polynomials
+    product = multiply_poly(polyA, polyB);
+    printf("\n\nProduct: ");
+    display_poly(product);
 
-    // product = mult_poly(startA, startB, product);
-
-    // printf("\nProduct of two polynomials : ");
-    // traversal(product);
+    return 0;
 }
