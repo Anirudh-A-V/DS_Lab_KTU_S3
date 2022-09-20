@@ -29,7 +29,7 @@
 3. open terminal in that directory
 4. type `gcc <filename>.c` and press enter in linux.
 5. If you are using windows, you can use any C compiler like Dev-C++ or CodeBlocks.
-6. If any issues, feel free to open an issue.
+6. If any issues, feel free to open an issue or contact me at [my email](mailto:anirudh.av02@gmail.com).
 
 
 ## Contributing
