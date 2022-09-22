@@ -1,5 +1,5 @@
 # DS_Lab_KTU_S3
- Set of all programs of Data Structures Lab for CSE branch, 2019 scheme
+ Set of all programs of Data Structures Lab for CSE branch, 2019 scheme.
 
 ## Programs
 1. Implement stack operations With arrays
@@ -24,7 +24,7 @@
 20. Memory allocator and garbage collector
 
 ## How to run
-1. Clone the repository
+1. Clone the repository([How to clone a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository))
 2. goto the directory of the program
 3. open terminal in that directory
 4. type `gcc <filename>.c` and press enter in linux.
